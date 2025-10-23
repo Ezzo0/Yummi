@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 
 import connectDB from "./config/db";
 import authRoute from "./routes/auth.route";
+import userRoute from "./routes/user.route";
 
 // Connect to MongoDB
 connectDB();
@@ -18,6 +19,7 @@ app.use(express.json());
 
 // Routes
 app.use("/api/v1/auth", authRoute);
+app.use("/api/v1/users", userRoute);
 
 // Start the server
 app.listen(port, () => {
