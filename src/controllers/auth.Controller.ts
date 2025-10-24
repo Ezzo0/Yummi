@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import User from "../models/user";
 import bcrypt from "bcrypt";
-import { generateAccessToken, generateRefreshToken } from "../utils/jwt";
 import { setCookies } from "../utils/setcookies";
 import jwt from "jsonwebtoken";
 
@@ -9,26 +8,9 @@ export const signup = async (req: Request, res: Response) => {
   try {
     const { email, password, name, addressLine1, city, country } = req.body;
 
-    if (!email || !password) {
-      return res
-        .status(400)
-        .json({ message: "Email and password are required" });
-    }
-
-    if (password.length < 8) {
-      return res
-        .status(400)
-        .json({ message: "Password must be at least 8 characters long" });
-    }
-
-    const emailRegex: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return res.status(400).json({ message: "Invalid email address" });
-    }
-
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ message: "Email already in use" });
+      return res.status(409).json({ message: "Email already in use" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
