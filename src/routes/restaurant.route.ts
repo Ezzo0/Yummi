@@ -11,9 +11,11 @@ import {
   searchRestaurant,
   updateOrderStatus,
 } from "../controllers/restaurant.controller";
+import { arcjetProtection } from "../middleware/arcjet.middleware";
 
 const router = express.Router();
 router.use(protectRoute);
+router.use(arcjetProtection);
 
 router.post(
   "/create-restaurant",

@@ -10,8 +10,11 @@ import {
   validateSignupRequest,
   validateLoginRequest,
 } from "../middleware/validation";
+import { arcjetProtection } from "../middleware/arcjet.middleware";
 
 const router = express.Router();
+
+router.use(arcjetProtection);
 
 router.post("/signup", validateSignupRequest, signup);
 router.post("/login", validateLoginRequest, login);
